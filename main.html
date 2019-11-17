@@ -4,6 +4,12 @@
    <script src="d3.v5.min.js"></script> <!-- d3 lib ( this is the current latest circa Oct 2019 ) -->
    <link rel="stylesheet" type="text/css" href="style.css"></link>
    <style>
+       #subCategorySelectWidget {
+           display:none;
+       }
+       .colorblock {
+           width:30px;
+       }
    </style>
 </head>
 <body>
@@ -19,25 +25,70 @@
             <table id="myTable" border='1'>
             </table>
             <hr>
-            <button>save</button>
+            <button onClick='save()'>save</button>
             <br>
-            <button>delete</button>
+            <button onClick='remove()'>remove</button>
+            <br>
+            <button onClick='show()'>show</button>
             <div id='layers'></div>
 
             </td>
     </table>
 
     <script>
-        
-        let layers = {} 
+        const CATEGORIES = "categories"
+        const SUB_CATEGORIES = "sub_categories"
+
+        let HoH = {
+            'cities':[
+                {id:'Portland', payload:[]},
+                {id:'Eugene', payload:[]},
+                {id:'Sagamihara', payload:[]},
+                {id:'Urbana', payload:[]},
+                {id:'Nago', payload:[]},
+                {id:'Yokosuka', payload:[]},
+                {id:'Virginia Beach', payload:[]}
+            ],
+        }
+
+        function save() {
+
+            localStorage.setItem(CATEGORIES, JSON.stringify(HoH))
+            alert('saved')
+            console.log('save() called at ' + new Date())
+
+        }
+        function remove() {
+            //localStorage.clear();
+            localStorage.removeItem(CATEGORIES);
+            console.log('remove() called at ' + new Date())
+
+        }
+        function show() {
+            const objGraphAsString = localStorage.getItem(CATEGORIES);
+            const obj = JSON.parse(objGraphAsString)
+            console.log(JSON.stringify(obj, null, 2 ))
+            console.log('show() called at ' + new Date())
+        }
+    
+    
+    </script>
+
+
+
+
+    <script>        
+    let layers = {} 
+    let activeLayer = ""
     const seed_ary = "0123456789ABCDEF".split("")
     function getRandomColor() { 
         let clr = "#"
         for ( let i =  0; i < 6; i++) {
             clr += seed_ary[Math.floor(Math.random()*seed_ary.length)];
         }
-        return clr 
+        return clr  
     }
+
     function addLayer() {
         const layerName = prompt("Enter layer name", "");
         if ( layerName != null && ! layers.hasOwnProperty(layerName)) {
@@ -46,15 +97,25 @@
             const row = table.insertRow(0);
             const cell1 = row.insertCell(0);
             const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
             layers[layerName] = clr
-
-            cell1.innerHTML = `<div style="background-color:${clr}">&nbsp;&nbsp;&nbsp;</div>`
-            cell2.innerHTML = `<a href="#" onclick="javascript:selectLayer('${layerName}')">${layerName}</a>`
+            cell1.innerHTML = `<div class='colorblock' style="background-color:${clr}">&nbsp;</div>`
+            cell2.innerHTML = `<input type="radio" name="layer" onchange="handleChange('${layerName}');"  checked='true' value="${layerName}"><br>`
+            cell3.innerHTML = `<a href="#" onclick="javascript:selectLayer('${layerName}')">${layerName}</a>`
+            activeLayer = layerName
+//            document.getElementById("subCategorySelectWidget").style.display = "block";
+            inflate_subCategory()
         }
     }    
     function selectLayer(layerName) {
         alert( layerName )
     }     
+
+    function handleChange(obj) {
+        alert('handleChange |' + obj + '|')
+    } 
+
+
     </script>
 
 
@@ -68,10 +129,30 @@
 
 </script>
 <script src="gridlogic.js"></script>
-<table border='1'>
-    <tr><td>hello</td></tr>
+<div id='subCategorySelectWidget'>
+    <button onClick="addSubCat()">Add SubCat</button>
+    <hr>
+    <div id='subcat' ></div>
 
+</div>
+    <script>
+    function inflate_subCategory() { 
+        document.getElementById("subCategorySelectWidget").style.display = "block";
+        let table = "<table border='1'>"
+//        for ( let key in HoH['cities'] ) {
+        HoH['cities'].forEach((city,i) => {
+            table += "<tr><td>" + city.id + "</td><td>#f0f0f0</td><td></td></tr>"
+        }) 
+        table += "</table>"
+        document.getElementById("subcat").innerHTML = table
+    } 
 
-</table>
+        function addSubCat() {
+
+            alert(activeLayer )
+        }
+    
+    </script>
+
     </body>
-</html>
+</html> 

@@ -4,6 +4,12 @@
    <script src="d3.v5.min.js"></script> <!-- d3 lib ( this is the current latest circa Oct 2019 ) -->
    <link rel="stylesheet" type="text/css" href="style.css"></link>
    <style>
+       #subCategorySelectWidget {
+           display:none;
+       }
+       .colorblock {
+           width:30px;
+       }
    </style>
 </head>
 <body>
@@ -27,9 +33,9 @@
             </td>
     </table>
 
-    <script>
-        
-        let layers = {} 
+    <script>        
+    let layers = {} 
+    let activeLayer = ""
     const seed_ary = "0123456789ABCDEF".split("")
     function getRandomColor() { 
         let clr = "#"
@@ -38,6 +44,7 @@
         }
         return clr 
     }
+
     function addLayer() {
         const layerName = prompt("Enter layer name", "");
         if ( layerName != null && ! layers.hasOwnProperty(layerName)) {
@@ -46,17 +53,24 @@
             const row = table.insertRow(0);
             const cell1 = row.insertCell(0);
             const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
             layers[layerName] = clr
-
-            cell1.innerHTML = `<div style="background-color:${clr}">&nbsp;&nbsp;&nbsp;</div>`
-            cell2.innerHTML = `<a href="#" onclick="javascript:selectLayer('${layerName}')">${layerName}</a>`
+            cell1.innerHTML = `<div class='colorblock' style="background-color:${clr}">&nbsp;</div>`
+            cell2.innerHTML = `<input type="radio" name="layer" onchange="handleChange('${layerName}');"  checked='true' value="${layerName}"><br>`
+            cell3.innerHTML = `<a href="#" onclick="javascript:selectLayer('${layerName}')">${layerName}</a>`
+            activeLayer = layerName
+            document.getElementById("subCategorySelectWidget").style.display = "block";
         }
-
     }    
-        
     function selectLayer(layerName) {
         alert( layerName )
     }     
+
+    function handleChange(obj) {
+        alert('handleChange |' + obj + '|')
+    } 
+
+
     </script>
 
 
@@ -70,10 +84,19 @@
 
 </script>
 <script src="gridlogic.js"></script>
-<table border='1'>
-    <tr><td>hello</td></tr>
-
-
+<table border='1' id='subCategorySelectWidget'>
+    <tr>
+        <td valign='top'><button onClick="addSubCat()">Add SubCat</button></td>
+    </tr>
 </table>
+
+    <script>
+        function addSubCat() {
+
+            alert(activeLayer )
+        }
+    
+    </script>
+
     </body>
-</html>
+</html> 
