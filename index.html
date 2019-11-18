@@ -52,12 +52,43 @@
             {id:'Seattle', clr:'#ff0f00'},
             {id:'New Orleans', clr:'#fff000'}
         ]
-        data['polities'] = []
+        data['polities'] = [
+                    //'#', '#', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000'
+            {id:'Britain', clr:'#e6194b'},
+            {id:'France', clr:'#3cb44b'},
+            {id:'Russia', clr:'#4363d8'},
+            {id:'Japan', clr:'#f58231'},
+            {id:'Germany', clr:'#911eb4'},
+            {id:'Turkey', clr:'#46f0f0'},
+            {id:'Poland', clr:'#bcf60c'},
+            {id:'Austria', clr:'#fabebe'},
+            {id:'Spain', clr:'#008080'},
+            {id:'Italy', clr:'#e6beff'},
+            {id:'China', clr:'#9a6324'},
+            {id:'Ethiopia', clr:'#fffac8'}
+        ]
         data['roads'] = []
         data['corruption'] = []
         data['farming'] = []
         data['fishing'] = []
+        function lookupColor() {
+            let clr = undefined 
+            try { 
+//                return data[activeLayer][activeSubCategory].clr
+data[activeLayer].forEach((item) => { 
+    if ( item.id === activeSubCategory) {
+        clr =  item.clr
 
+    } else { 
+
+    }
+
+})
+return clr 
+            } catch ( needToChoose ) { 
+                alert('need to choose a category and a subcategory first\n' + needToChoose)
+            }
+        }
         function save() {
             localStorage.setItem('categories', JSON.stringify(categories))
             localStorage.setItem('data', JSON.stringify(data))
@@ -91,6 +122,7 @@
     <script>        
     let layers = {} 
     let activeLayer = ""
+    let activeSubCategory = ""
     const seed_ary = "0123456789ABCDEF".split("")
     function getRandomColor() { 
         let clr = "#"
@@ -146,19 +178,8 @@
     }     
 
     function handleChange(category) {
-        // alert('handleChange |' + category + '|')
-        /*
-        document.getElementById("subCategorySelectWidget").style.display = "block";
-        let table = "<table border='1'>"
-        data[category].forEach((item,i) => {
-            table += "<tr><td>" + item.id + "</td><td>item.clr</td><td></td></tr>"
-        }) 
-         table += "</table>"
-        document.getElementById("subcat").innerHTML = table
-        */
+        activeLayer = category 
         inflate_subCategory(category)
-
-
     } 
 
 
@@ -185,20 +206,45 @@
     function inflate_subCategory(category) { 
         console.log('inflate_subCategory')
         document.getElementById("subCategorySelectWidget").style.display = "block";
-        let table = "<table border='1'>"
+        let table = "<table border='1' id='subCats'>"
+
+
+
+
         data[category].forEach((item,i) => {
-            table += `<tr><td>${item.id}</td><td><div class='colorblock' style="background-color:${item.clr}">&nbsp;</div></td><td></td></tr>`
+            table += `<tr><td>${item.id}</td><td><div class='colorblock' style="background-color:${item.clr}">&nbsp;</div></td><td><input type="radio" name="subCategory" onchange="handleSubCategoryChange('${item.id}');"  value="${item.id}"></td><td><div class='information' id='data_${item.id}'></div></tr>`
         }) 
         table += "</table>"
         document.getElementById("subcat").innerHTML = table
     } 
 
-        function addSubCat() {
+    function handleSubCategoryChange(subcat) {
+        activeSubCategory = subcat
+    }
+
+    function addSubCat() {
+        const subcatName = prompt("Enter subcat name", "");
+        const clr = getRandomColor() 
+        const table = document.getElementById("subCats");
+        const row = table.insertRow(0)
+        const cell1 = row.insertCell(0)
+        const cell2 = row.insertCell(1)
+        const cell3 = row.insertCell(2)
+        const cell4 = row.insertCell(3)
+        cell1.innerHTML = `${subcatName}`
+        cell2.innerHTML = `<div class='colorblock' style="background-color:${clr}">&nbsp;</div>`
+        cell3.innerHTML = `<input type="radio" name="subCategory" onchange="handleSubCategoryChange('${subcatName}');"  value="${subcatName}">`
+        cell4.innerHTML = `<div class='information' id='data_${subcatName}'></div>`
 
 
 
 
-        }
+        data[activeLayer].push({'id':subcatName, 'clr':clr})
+        console.log( JSON.stringify( data , null, 2 ))
+        console.log("...")
+        console.log('activeLayer' , activeLayer)
+        console.log('subcatName', subcatName    )
+    }
     
     </script>
 

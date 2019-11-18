@@ -2,6 +2,8 @@ function gridData() {
     let data = new Array();
     let xpos = 1; //starting xpos and ypos at 1 so the stroke will show when we make the grid below
     let ypos = 1;
+    // let width = w / 30 ;
+    // let height = w / 30 ;
     let size = 10
     let click = 0;
     let down = 0;
@@ -10,7 +12,7 @@ function gridData() {
 
         data.push(new Array());
 
-        // iterate for cells/columns inside rows 
+        // iterate for cells/columns inside rows
         let over = 0
         //for (var column = 0; column < 10; column++) {
         while (over < w) {
@@ -65,31 +67,21 @@ const column = row.selectAll(".square")
     .attr("height", function(d) {
         return d.height;
     })
-    //.style("fill", "#ff0ff0")
-    .style("opacity", 0.5)
+    .style("fill", "#ff0ff0")
+    .style("opacity", 0.3)
     .style("stroke", "#222")
     .on('click', function(d) {
-        // d.click++;
-        const clr = lookupColor()
-        if ( clr != undefined) {
-            d3.select(this).style("fill", clr).style("opacity", .50)
-            console.log("CLICKED " + JSON.stringify( d, null, 2 ))
-        } else {
-            alert("NOPE " + JSON.stringify( d ))
-        }
-        /* 
+        d.click++;
         if ((d.click) % 4 == 0) {
-            d3.select(this).style("fill", "#fff").style("opacity", 1.0)
-            
+            d3.select(this).style("fill", "#fff");
         }
         if ((d.click) % 4 == 1) {
-            d3.select(this).style("fill", "#2C93E8").style("opacity", 1.0)
+            d3.select(this).style("fill", "#2C93E8");
         }
         if ((d.click) % 4 == 2) {
-            d3.select(this).style("fill", "#F56C4E").style("opacity", 1.0)
+            d3.select(this).style("fill", "#F56C4E");
         }
         if ((d.click) % 4 == 3) {
-            d3.select(this).style("fill", "#838690").style("opacity", 1.0)
+            d3.select(this).style("fill", "#838690");
         }
-        */
     });
