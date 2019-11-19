@@ -1,3 +1,6 @@
+let activeCatName = undefined
+let activeSubCatName = undefined
+let activeClr = undefined
 
 function makeCategoriesFromLocalStorageIfThere() {
     try { 
@@ -43,10 +46,14 @@ const getRandomColor = (() =>{
     return clr  
 })
 const handleCategoryChange = ((catName) => {
+    activeCatName = undefined
+    activeSubCatName = undefined
+    activeClr = undefined
+    factory.remove()
     // step 4 - add category
     // step 1 - add sub category
     let html = `<button onClick="addSubCategory('${catName}')">AddSubCategory</button><br>`
-    html += `<select id='sizeSelect' onchange="sizeSelect()"><option>10</option><option>20</option><option selected >30</option><option>40</option><option>50</option></select>`
+    html += `<select id='sizeSelect' onchange="sizeSelect()"><option>10</option><option>15</option><option>20</option><option>25</option><option selected >30</option><option>35</option><option>40</option><option>45</option><option>50</option></select>`
     html += `<table border='1' id='subCategoryTable'>`
     categories[catName].forEach((item)=>{
         categories[catName] = []
@@ -60,7 +67,9 @@ const handleCategoryChange = ((catName) => {
 const sizeSelect = (() => { 
     const sel = document.getElementById('sizeSelect')
     const size = sel.options[sel.selectedIndex].text
-    console.log("size " + size )
+    console.log("size " + (typeof size) )
+    factory.paint(size)
+
 }) 
 const addSubCategory = ((catName) => {
     // step 2 - add sub category
@@ -82,11 +91,16 @@ const insertSubCategory = ((catName, subCatName) => {
     const cell2 = row.insertCell(1)
     const cell3 = row.insertCell(1)
     cell1.innerHTML = `<div class='colorblock' style="background-color:${clr}">&nbsp;</div>`
-    cell2.innerHTML = `<input type="radio" name="setCategory" onchange="handleSubCategoryChange('${catName}','${subCatName}' );" value="${catName}" id='${catName}_${subCatName}'><label for='${catName}_${subCatName}'>${catName} ${subCatName}</label>`
+    cell2.innerHTML = `<input type="radio" name="setCategory" onchange="handleSubCategoryChange('${catName}','${subCatName}', '${clr}' );" value="${catName}" id='${catName}_${subCatName}'><label for='${catName}_${subCatName}'>${catName} ${subCatName}</label>`
     cell3.innerHTML = `<div id='d_${catName}_${subCatName}'></div>`
 
     categories[catName].push({id:subCatName, clr:clr})
     console.log('insertSubCategory' , catName, subCatName )
     console.log(JSON.stringify(categories, null, 2 ))
    
+})
+const handleSubCategoryChange = ((catName, subCatName, clr)=>{
+    activeCatName = catName 
+    activeSubCatName = subCatName    
+    activeClr = clr 
 })
