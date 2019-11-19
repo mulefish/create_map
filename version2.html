@@ -36,6 +36,8 @@
     </div>
     
     
+    <table border='1'><tr>
+        <td valign='top'>
 
 
     <button onClick="save()">save</button>
@@ -48,6 +50,36 @@
     </table>
 
     <div id='subCategoryTableDiv'></div>
+
+
+    </td>
+    <td valign='top'>
+            <div id='svgdiv' ></div>
+            <script>
+                    // Fake react!
+                    const width = 1250 // window.innerWidth
+                    const height = 606 // window.innerWidth
+                    //const dom = `<svg width='${w}' height='${h}' style="background: url('http://localhost:3030/world_map_PNG15_cropped.png') no-repeat;" id='grid'></svg>`
+                    const dom = `<svg width='${width}' height='${height}' id='grid'></svg>`
+                    document.getElementById('svgdiv').innerHTML = dom
+            
+            </script>
+                
+
+
+        <script>
+             const svg = d3.select('svg')
+             const myimage = svg.append('image')
+                // .attr('xlink:href', 'http://localhost:3030/world_map_PNG15_cropped.png')
+                .attr('xlink:href', 'world_map_PNG15_cropped.png')
+                .attr('width', width)
+                .attr('height', height)
+                .attr('id', 'picture')
+        </script>
+    </td>
+    </tr>
+    </table>
+
     
     <script>
     makeCategoriesFromLocalStorageIfThere()
