@@ -45,21 +45,29 @@ class Factory {
         .attr("stroke-opacity", 0.2)
         .attr("class","box")
         .attr("id", id)
-        // .call(d3.drag()
-        //     .on("start", this.dragStarted)
-        //     .on("drag", this.dragMove)
-        //     .on("end", this.dragEnded))        
         .on("click", (d) => {
             if ( activeClr != undefined ) {
-                d.clr = activeClr
-                this.data[d.id].attr("fill", activeClr).attr("fill-opacity", 0.7)
-                console.log( JSON.stringify(d))
+                // d.clr = activeClr
+                // this.data[d.id].attr("fill", activeClr).attr("fill-opacity", 0.7)
+                // console.log( JSON.stringify(d))
+                if ( d.clr === this.defaultClr) {
+                    d.clr = activeClr
+                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.7)
+                } else {
+                    d.clr = this.defaultClr
+                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.01)
+                }
             }
         })
         .on("mouseenter", (d) => {
-            if ( activeClr != undefined ) {
-                    d.clr = activeClr
-                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.7)
+            if ( activeClr != undefined && isDown === true ) {
+                    if ( d.clr === this.defaultClr) {
+                        d.clr = activeClr
+                        this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.7)
+                    } else {
+                        d.clr = this.defaultClr
+                        this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.01)
+                    }
             }
         })
 
