@@ -18,17 +18,7 @@ class Factory {
            .attr('id', 'picture')
 
     }
-    dragStarted() {
-        console.log("start")
-        this.isDragging = true
-    }
-    dragMove() {
-        console.log( this.isDragging + "move ")
-    }
-    dragEnded() {
-        console.log("end")
-        this.isDragging = false
-    }
+
     makeCell(over, down, size ) {
         let id = over + "_" + down
 
@@ -46,10 +36,9 @@ class Factory {
         .attr("class","box")
         .attr("id", id)
         .on("click", (d) => {
+            // activeClr is GLOBAL var
+            // isDown is GLOBAL var
             if ( activeClr != undefined ) {
-                // d.clr = activeClr
-                // this.data[d.id].attr("fill", activeClr).attr("fill-opacity", 0.7)
-                // console.log( JSON.stringify(d))
                 if ( d.clr === this.defaultClr) {
                     d.clr = activeClr
                     this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.7)
@@ -60,23 +49,23 @@ class Factory {
             }
         })
         .on("mouseenter", (d) => {
+            // activeClr is GLOBAL var
+            // isDown is GLOBAL var
             if ( activeClr != undefined && isDown === true ) {
-                    if ( d.clr === this.defaultClr) {
-                        d.clr = activeClr
-                        this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.7)
-                    } else {
-                        d.clr = this.defaultClr
-                        this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.01)
-                    }
+                if ( d.clr === this.defaultClr) {
+                    d.clr = activeClr
+                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.7)
+                } else {
+                    d.clr = this.defaultClr
+                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.01)
+                }
             }
         })
-
         this.data[id]=box
     }
     remove() {
         this.svg.selectAll(".box").remove()
         this.data = {}
-
     }
     paint(size) {
         this.remove()

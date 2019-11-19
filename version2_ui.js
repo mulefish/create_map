@@ -73,8 +73,6 @@ const sizeSelect = (() => {
 }) 
 const addSubCategory = ((catName) => {
     // step 2 - add sub category
-    console.log( catName )
-    console.log( JSON.stringify(categories, null, 2 ))
     const subCatName = prompt("Enter new sub category", "");
     if ( subCatName != null ) {
         insertSubCategory(catName, subCatName)  
