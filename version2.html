@@ -4,6 +4,7 @@
    <script src="d3.v5.min.js"></script>
    <script src="version2_data.js"></script>
    <script src="version2_ui.js"></script>
+   <script src="version2_factory.js"></script>
 
    <link rel="stylesheet" type="text/css" href="style.css"></link>
    <style>
@@ -62,20 +63,9 @@
                     //const dom = `<svg width='${w}' height='${h}' style="background: url('http://localhost:3030/world_map_PNG15_cropped.png') no-repeat;" id='grid'></svg>`
                     const dom = `<svg width='${width}' height='${height}' id='grid'></svg>`
                     document.getElementById('svgdiv').innerHTML = dom
+                    const factory = new Factory(width, height)
             
             </script>
-                
-
-
-        <script>
-             const svg = d3.select('svg')
-             const myimage = svg.append('image')
-                // .attr('xlink:href', 'http://localhost:3030/world_map_PNG15_cropped.png')
-                .attr('xlink:href', 'world_map_PNG15_cropped.png')
-                .attr('width', width)
-                .attr('height', height)
-                .attr('id', 'picture')
-        </script>
     </td>
     </tr>
     </table>
