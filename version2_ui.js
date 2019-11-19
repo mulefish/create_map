@@ -1,3 +1,17 @@
+
+function makeCategoriesFromLocalStorageIfThere() {
+    try { 
+        const objGraphAsString = localStorage.getItem('categories');
+        const cats = JSON.parse(objGraphAsString)
+        for ( let key in cats ) {
+            insertCategory(key)
+        }
+
+    } catch ( itMightNotBeThere) {
+        console.log("Attempted to read 'categories' from localStorage: ", itMightNotBeThere)
+    }
+}
+
 function addCategory() {
     // step 1 - add category
     const catName = prompt("Enter new category", "");
@@ -12,7 +26,9 @@ const insertCategory = ((catName) => {
     const row = table.insertRow(0)
     const cell1 = row.insertCell(0)
     const cell2 = row.insertCell(1)
-    categories[catName] = []
+    if ( ! categories.hasOwnProperty(catName)) {
+        categories[catName] = []
+    }
     cell1.innerHTML = `<div class='colorblock' style="background-color:${clr}">&nbsp;</div>`
     cell2.innerHTML = `<input type="radio" name="setCategory" onchange="handleCategoryChange('${catName}');" value="${catName}" id='rb_${catName}'><label for='rb_${catName}'>${catName}</label>`
 })
@@ -30,6 +46,7 @@ const handleCategoryChange = ((catName) => {
     // step 4 - add category
     // step 1 - add sub category
     let html = `<button onClick="addSubCategory('${catName}')">AddSubCategory</button><br>`
+    html += `<select id='sizeSelect' onchange="sizeSelect()"><option>10</option><option>20</option><option selected >30</option><option>40</option><option>50</option></select>`
     html += `<table border='1' id='subCategoryTable'>`
     categories[catName].forEach((item)=>{
         categories[catName] = []
@@ -40,7 +57,11 @@ const handleCategoryChange = ((catName) => {
     document.getElementById('subCategoryTableDiv').innerHTML = html      
 
 })
-
+const sizeSelect = (() => { 
+    const sel = document.getElementById('sizeSelect')
+    const size = sel.options[sel.selectedIndex].text
+    console.log("size " + size )
+}) 
 const addSubCategory = ((catName) => {
     // step 2 - add sub category
     console.log( catName )

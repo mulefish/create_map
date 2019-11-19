@@ -7,8 +7,10 @@
 
    <link rel="stylesheet" type="text/css" href="style.css"></link>
    <style>
-       #subCategorySelectWidget {
+       #showLocalStorage {
+           z-index: 10;
            display:none;
+
        }
        .colorblock {
            width:30px;
@@ -19,7 +21,26 @@
 
 
 </head>
-<body>
+<body>        
+
+    <div id='showLocalStorage'>
+     <textarea rows='40' cols='100' id='output'>
+
+     </textarea>   
+        <button onClick="dismiss()">dismiss</button>
+        <script>
+            function dismiss() {
+                document.getElementById('showLocalStorage').style.display="none"
+            }
+        </script>
+    </div>
+    
+    
+
+
+    <button onClick="save()">save</button>
+    <button onClick="remove()">remove</button>
+    <button onClick="show()">show</button>
 
 
     <button onClick="addCategory()">AddCategory</button>
@@ -28,6 +49,8 @@
 
     <div id='subCategoryTableDiv'></div>
     
-
+    <script>
+    makeCategoriesFromLocalStorageIfThere()
+    </script>
 </body>
 </html> 
