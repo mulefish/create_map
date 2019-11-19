@@ -8,7 +8,6 @@ function save() {
 function remove() {
     localStorage.removeItem('categories');
     console.log('remove() called at ' + new Date())
-
 }
 
 function show() {
@@ -18,5 +17,3 @@ function show() {
     document.getElementById('output').value = JSON.stringify(obj, null, 2)
     console.log(JSON.stringify(obj, null, 2 ))
 }
-
-

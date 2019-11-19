@@ -19,8 +19,9 @@ class Factory {
 
     }
 
-    makeCell(over, down, size ) {
-        let id = over + "_" + down
+    makeCell(over, down, size, col, row ) {
+        // let id = over + "_" + down
+        let id = col + "_" + row
 
         const box = this.svg.append("rect")
         .data([{x:over, y:down, size:size, id:id, clr:this.defaultClr}])
@@ -35,16 +36,20 @@ class Factory {
         .attr("stroke-opacity", 0.2)
         .attr("class","box")
         .attr("id", id)
+        .attr("col", col)
+        .attr("row", row)
+        .attr("selected", 0)
+        .attr("size", size)
         .on("click", (d) => {
             // activeClr is GLOBAL var
             // isDown is GLOBAL var
             if ( activeClr != undefined ) {
                 if ( d.clr === this.defaultClr) {
                     d.clr = activeClr
-                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.7)
+                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.7).attr("selected", 1)
                 } else {
                     d.clr = this.defaultClr
-                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.01)
+                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.01).attr("selected", 0)
                 }
             }
         })
@@ -54,10 +59,10 @@ class Factory {
             if ( activeClr != undefined && isDown === true ) {
                 if ( d.clr === this.defaultClr) {
                     d.clr = activeClr
-                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.7)
+                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.7).attr("selected", 1)
                 } else {
                     d.clr = this.defaultClr
-                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.01)
+                    this.data[d.id].attr("fill", d.clr).attr("fill-opacity", 0.01).attr("selected", 0)
                 }
             }
         })
@@ -70,15 +75,36 @@ class Factory {
     paint(size) {
         this.remove()
         size = parseInt(size)
+        let row = 0
         let down = 0
+        let y = 0
         while (down < this.height) {
             let over = 0
-                while (over < this.width) {
-                this.makeCell(over, down, size)
+            let col = 0
+            while (over < this.width) {
+                this.makeCell(over, down, size, col, row)
                 over += size
+                col++
             }
             down += size
+            row++
+            col = 0
             over = 0
         }
+    }
+    getSelectedCells() {
+        let xy = []
+        let size = -1
+        Object.keys(this.data).forEach((key,i ) => {
+            const cell = this.data[key]
+            if ( i === 0 ) {
+                size = cell.attr("size")
+            }
+            if ( cell.attr("selected") == "1" ) {
+                xy.push(cell.attr("col"))
+                xy.push(cell.attr("row"))
+            }
+        })
+        return {size:size, xy:xy}
     }
 }

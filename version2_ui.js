@@ -61,6 +61,7 @@ const handleCategoryChange = ((catName) => {
         html += `<td><input type="radio" name="setSubCategory" onchange="handleSubCategoryChange('${catName}', '${item.id}');" value="${item.id}" id='${catName}_${item.id}'><label for='${catName}_${item.id}'>${catName} ${item.id}</label></td></tr>`
     })
     html += "</table>"
+    html += `<button onClick="saveSubCategory()">SaveSubCategory</button>`
     document.getElementById('subCategoryTableDiv').innerHTML = html      
 
 })
@@ -92,13 +93,30 @@ const insertSubCategory = ((catName, subCatName) => {
     cell2.innerHTML = `<input type="radio" name="setCategory" onchange="handleSubCategoryChange('${catName}','${subCatName}', '${clr}' );" value="${catName}" id='${catName}_${subCatName}'><label for='${catName}_${subCatName}'>${catName} ${subCatName}</label>`
     cell3.innerHTML = `<div id='d_${catName}_${subCatName}'></div>`
 
-    categories[catName].push({id:subCatName, clr:clr})
+    categories[catName].push({id:subCatName, clr:clr, size:0, points:[]})
     console.log('insertSubCategory' , catName, subCatName )
-    console.log(JSON.stringify(categories, null, 2 ))
-   
+    console.log(JSON.stringify(categories, null, 2 )) 
 })
+    
 const handleSubCategoryChange = ((catName, subCatName, clr)=>{
     activeCatName = catName 
     activeSubCatName = subCatName    
     activeClr = clr 
+})
+
+const saveSubCategory = (() => {
+    const selectedCells = factory.getSelectedCells()
+    // console.log(JSON.stringify( selectedCells, null, 2 ))
+    // categories[activeCatName][activeSubCatName]["size"]=selectedCells["size"]
+    // categories[activeCatName][activeSubCatName]["points"]=selectedCells["xy"]
+    console.log('activeCatName ', activeCatName)
+    console.log('activeSubCatName ', activeSubCatName)
+    console.log('activeClr ', activeClr)
+    categories[activeCatName].forEach((sub)=>{
+        if ( sub.id === activeSubCatName ) {
+            sub["size"] = selectedCells["size"]
+            sub["points"] = selectedCells["xy"]
+        }
+    })
+    // console.log( JSON.stringify(categories[activeCatName][activeSubCatName],null,2) )
 })
