@@ -72,7 +72,7 @@ class Factory {
         this.svg.selectAll(".box").remove()
         this.data = {}
     }
-    paint(size) {
+    paint(size, xy) {
         this.remove()
         size = parseInt(size)
         let row = 0

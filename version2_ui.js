@@ -5,8 +5,8 @@ let activeClr = undefined
 function makeCategoriesFromLocalStorageIfThere() {
     try { 
         const objGraphAsString = localStorage.getItem('categories');
-        const cats = JSON.parse(objGraphAsString)
-        for ( let key in cats ) {
+        categories = JSON.parse(objGraphAsString)
+        for ( let key in categories ) {
             insertCategory(key)
         }
 
@@ -53,14 +53,20 @@ const handleCategoryChange = ((catName) => {
     // step 4 - add category
     // step 1 - add sub category
     let html = `<button onClick="addSubCategory('${catName}')">AddSubCategory</button><br>`
-    html += `<select id='sizeSelect' onchange="sizeSelect()"><option>10</option><option>15</option><option>20</option><option>25</option><option selected >30</option><option>35</option><option>40</option><option>45</option><option>50</option></select>`
+    html += `<select id='sizeSelect' onchange="sizeSelect()"><option>Select Cell Size</option><option>10</option><option>15</option><option>20</option><option>25</option><option>30</option><option>35</option><option>40</option><option>45</option><option>50</option></select>`
+    
     html += `<table border='1' id='subCategoryTable'>`
+    html += '<tr><td>hello</td></tr>'
+    console.log( JSON.stringify( categories, null, 2 ))
+  
     categories[catName].forEach((item)=>{
         categories[catName] = []
-        html += `<tr><td><div class='colorblock' style="background-color:${item.clr}">&nbsp;</div></td>`
+        html += `<tr><td>!!!!<div class='colorblock' style="background-color:${item.clr}">&nbsp;</div></td>`
         html += `<td><input type="radio" name="setSubCategory" onchange="handleSubCategoryChange('${catName}', '${item.id}');" value="${item.id}" id='${catName}_${item.id}'><label for='${catName}_${item.id}'>${catName} ${item.id}</label></td></tr>`
     })
+
     html += "</table>"
+
     html += `<button onClick="saveSubCategory()">SaveSubCategory</button>`
     document.getElementById('subCategoryTableDiv').innerHTML = html      
 
@@ -70,7 +76,6 @@ const sizeSelect = (() => {
     const size = sel.options[sel.selectedIndex].text
     console.log("size " + (typeof size) )
     factory.paint(size)
-
 }) 
 const addSubCategory = ((catName) => {
     // step 2 - add sub category
@@ -106,17 +111,13 @@ const handleSubCategoryChange = ((catName, subCatName, clr)=>{
 
 const saveSubCategory = (() => {
     const selectedCells = factory.getSelectedCells()
-    // console.log(JSON.stringify( selectedCells, null, 2 ))
-    // categories[activeCatName][activeSubCatName]["size"]=selectedCells["size"]
-    // categories[activeCatName][activeSubCatName]["points"]=selectedCells["xy"]
     console.log('activeCatName ', activeCatName)
     console.log('activeSubCatName ', activeSubCatName)
     console.log('activeClr ', activeClr)
     categories[activeCatName].forEach((sub)=>{
         if ( sub.id === activeSubCatName ) {
             sub["size"] = selectedCells["size"]
-            sub["points"] = selectedCells["xy"]
+            sub["points"] =  selectedCells["xy"]
         }
     })
-    // console.log( JSON.stringify(categories[activeCatName][activeSubCatName],null,2) )
 })

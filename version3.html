@@ -1,0 +1,61 @@
+<html>
+	<head>
+			<script src="d3.v5.min.js"></script>
+			<script src="version3_ui.js"></script> <!-- org the categories-->
+			<style>
+			.colorblock {
+				width: 30px; 
+				}
+			</style>
+	</head>
+	<body>
+		<script>
+			/* Globals */ 
+			let CATEGORIES = {}
+			let ACTIVE_CAT = undefined
+			let ACTIVE_SUB_CAT = undefined
+			const CATEGORY_TABLE_ID = "categoryTable"
+			const SUB_CATEGORY_DIV_ID = "subCategoryDivTableId"
+			const SUB_CATEGORY_TABLE_ID = "subCategoryTableId"
+
+			CATEGORIES['empire'] = {
+			finch:{
+				clr:"#f0f0f0",
+				xy:[1,2,3,4,5,6]
+			}
+		}
+		</script>
+		
+		
+		<button onClick='addCategory()'>Add Category</button>
+		<select onChange='setSize(this)'>
+				<option>select grid size</option> 
+				<option>10</option> 
+				<option>15</option> 
+				<option>20</option> 
+				<option>25</option> 
+				<option>30</option> 
+				<option>35</option> 
+				<option>40</option> 
+				<option>45</option> 
+				<option>50</option> 
+		</select>
+		<table id='categoryTable' border='1'></table> 
+		<hr/>
+		
+		<button onClick='addSubCategory()'>Add SubCategory</button><br>
+		<br>
+		<div id='subCategoryDivTableId'> <!-- subcat table will go here, dynamically --> </div> 
+
+
+
+
+
+
+		<script>
+		setup()
+		</script>
+	</body> 
+
+
+</html>

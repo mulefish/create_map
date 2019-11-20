@@ -14,6 +14,6 @@ function show() {
     const objGraphAsString = localStorage.getItem('categories');
     const obj = JSON.parse(objGraphAsString)
     document.getElementById('showLocalStorage').style.display="block"
-    document.getElementById('output').value = JSON.stringify(obj, null, 2)
+    document.getElementById('output').value = JSON.stringify(obj)
     console.log(JSON.stringify(obj, null, 2 ))
 }
