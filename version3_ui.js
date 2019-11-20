@@ -29,7 +29,7 @@ function handleCategoryChange(catName) {
             html += "<tr>"
             html += `<td><div class='colorblock' style="background-color:${obj.clr}">&nbsp;</div>`
             html += `<td><input type="radio" name="setSubCategory" onchange="handleSubCategoryChange('${subCatKey}' );" value="${subCatKey}" id='${subCatKey}'><label for='${subCatKey}'>${subCatKey}</label></td>`    
-            html += `<td><div id='xy${subCatKey}'>${obj.xy}</div></td>`    
+            html += `<td><div id='xy${subCatKey}'>${obj.xy.length}</div></td>`    
             html += "</tr>"           
     }
     document.getElementById(SUB_CATEGORY_DIV_ID).innerHTML = html
@@ -38,14 +38,12 @@ function handleCategoryChange(catName) {
 function saveSubCategoryGridInfo() {
     let info = factory.getGridInformation()
     CATEGORIES[ACTIVE_CAT][ACTIVE_SUB_CAT].xy = info    
-    
+
 }
 function handleSubCategoryChange(subCat) {
     ACTIVE_SUB_CAT = subCat
     ACTIVE_CLR = CATEGORIES[ACTIVE_CAT][ACTIVE_SUB_CAT].clr
-    console.log('ACTIVE_CLR', ACTIVE_CLR, 'ACTIVE_SUB_CAT', ACTIVE_SUB_CAT, 'ACTIVE_CAT', ACTIVE_SUB_CAT )
-    console.log( CATEGORIES[ACTIVE_CAT][ACTIVE_SUB_CAT].xy)
-    factory.remove() 
+    //factory.remove2() 
 }
 
 function addSubCategory() {

@@ -36,7 +36,12 @@
 		</script>
 		
 		<table border='1'><tr><td valign='top'>
-		
+		<button onClick='show()'>show</button>
+			<script>
+				function show() {
+			console.log( JSON.stringify(CATEGORIES))
+				}
+			</script>
 		<button onClick='addCategory()'>Add Category</button>
 		<select onChange='setSize()' id='setSize'>
 				<option>select grid size</option> 

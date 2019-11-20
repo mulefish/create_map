@@ -18,19 +18,15 @@ class Factory {
 
     }
     getGridInformation() {
-        let info = [] 
-        let i = 0 
         for ( let id in this.data) {
             if ( this.data[id].attr('fill') !== this.defaultClr) {
-                if ( i === 0 ) {
-                    info.push(this.data[id].attr('size'))
-                    i++
-                }
-                info.push(this.data[id].attr("col"))                
-                info.push(this.data[id].attr("row"))                
-            }
+                const clr = this.data[id].attr("fill")
+                const r =  this.data[id].attr("row")
+                const c = this.data[id].attr("col")
+                console.log( clr, r, c )
+                
+            } 
         }
-        return info 
     }
     makeCell(over, down, size, col, row ) {
         // let id = over + "_" + down
