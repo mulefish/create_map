@@ -28,11 +28,24 @@ function handleCategoryChange(catName) {
             const obj = CATEGORIES[catName][subCatKey];
             html += "<tr>"
             html += `<td><div class='colorblock' style="background-color:${obj.clr}">&nbsp;</div>`
-            html += `<td><input type="radio" name="setSubCategory" onchange="handleSubCategoryChange('${catName}_${subCatKey}' );" value="${catName}_${subCatKey}" id='${catName}_${subCatKey}'><label for='${catName}_${subCatKey}'>${catName  }_${subCatKey}</label></td>`    
-            html += `<td><div id='xy_${catName}_${subCatKey}'>${obj.xy}</div></td>`    
+            html += `<td><input type="radio" name="setSubCategory" onchange="handleSubCategoryChange('${subCatKey}' );" value="${subCatKey}" id='${subCatKey}'><label for='${subCatKey}'>${subCatKey}</label></td>`    
+            html += `<td><div id='xy${subCatKey}'>${obj.xy}</div></td>`    
             html += "</tr>"           
     }
     document.getElementById(SUB_CATEGORY_DIV_ID).innerHTML = html
+}
+
+function saveSubCategoryGridInfo() {
+    let info = factory.getGridInformation()
+    CATEGORIES[ACTIVE_CAT][ACTIVE_SUB_CAT].xy = info    
+    
+}
+function handleSubCategoryChange(subCat) {
+    ACTIVE_SUB_CAT = subCat
+    ACTIVE_CLR = CATEGORIES[ACTIVE_CAT][ACTIVE_SUB_CAT].clr
+    console.log('ACTIVE_CLR', ACTIVE_CLR, 'ACTIVE_SUB_CAT', ACTIVE_SUB_CAT, 'ACTIVE_CAT', ACTIVE_SUB_CAT )
+    console.log( CATEGORIES[ACTIVE_CAT][ACTIVE_SUB_CAT].xy)
+    factory.remove() 
 }
 
 function addSubCategory() {
@@ -50,8 +63,8 @@ function addSubCategory() {
             const cell3 = row.insertCell(2)
             let clr = getRandomColor()
             cell1.innerHTML=`<div class='colorblock' style="background-color:${clr}">&nbsp;</div>`
-            cell2.innerHTML = `<input type="radio" name="setSubCategory" onchange="handleSubCategoryChange('${ACTIVE_CAT}_${ACTIVE_SUB_CAT}' );" value="${ACTIVE_CAT}_${ACTIVE_SUB_CAT}" id='${ACTIVE_CAT}_${ACTIVE_SUB_CAT}'><label for='${ACTIVE_CAT}_${ACTIVE_SUB_CAT}'>${ACTIVE_CAT}_${ACTIVE_SUB_CAT}</label>`    
-            cell3.innerHTML = `<div id='xy_${ACTIVE_CAT}_${ACTIVE_SUB_CAT}'> </div>`
+            cell2.innerHTML = `<input type="radio" name="setSubCategory" onchange="handleSubCategoryChange('${ACTIVE_SUB_CAT}' );" value="${ACTIVE_SUB_CAT}" id='${ACTIVE_SUB_CAT}'><label for='${ACTIVE_SUB_CAT}'>${ACTIVE_SUB_CAT}</label>`    
+            cell3.innerHTML = `<div id='xy_${ACTIVE_SUB_CAT}'> </div>`
 
             CATEGORIES[ACTIVE_CAT][ACTIVE_SUB_CAT] = {}
             CATEGORIES[ACTIVE_CAT][ACTIVE_SUB_CAT].clr = clr            

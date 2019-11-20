@@ -2,10 +2,11 @@
 	<head>
 			<script src="d3.v5.min.js"></script>
 			<script src="version3_ui.js"></script> <!-- org the categories-->
+			<script src="version3_d3.js"></script> <!-- d3 logic -->
 			<style>
 			.colorblock {
 				width: 30px; 
-				}
+			}
 			</style>
 	</head>
 	<body>
@@ -13,37 +14,49 @@
 			/* Globals */ 
 			let CATEGORIES = {}
 			let ACTIVE_CAT = undefined
-			let ACTIVE_SUB_CAT = undefined
+			let ACTIVE_SUB_CAT = undefined 
+			let ACTIVE_SIZE = 30 // d3 gridsize
+			let IS_DOWN = false
+			let ACTIVE_CLR = "#ffffff"
+			/* Html widgets */
 			const CATEGORY_TABLE_ID = "categoryTable"
 			const SUB_CATEGORY_DIV_ID = "subCategoryDivTableId"
 			const SUB_CATEGORY_TABLE_ID = "subCategoryTableId"
-
+			/* For knowing when to drag */ 
+			window.addEventListener('mouseup', function() { IS_DOWN=false});   
+			window.addEventListener('mousedown', function() { IS_DOWN=true});
+			
+			// TODO: Populate from localStorage
 			CATEGORIES['empire'] = {
-			finch:{
-				clr:"#f0f0f0",
-				xy:[1,2,3,4,5,6]
+				finch:{
+					clr:"#f0f0f0",
+					xy:[1,2,3,4,5,6]
+				}
 			}
-		}
 		</script>
 		
+		<table border='1'><tr><td valign='top'>
 		
 		<button onClick='addCategory()'>Add Category</button>
-		<select onChange='setSize(this)'>
+		<select onChange='setSize()' id='setSize'>
 				<option>select grid size</option> 
 				<option>10</option> 
 				<option>15</option> 
 				<option>20</option> 
 				<option>25</option> 
-				<option>30</option> 
+				<option selected>30</option> 
 				<option>35</option> 
 				<option>40</option> 
 				<option>45</option> 
 				<option>50</option> 
 		</select>
+
 		<table id='categoryTable' border='1'></table> 
-		<hr/>
-		
+
+		<hr>		
 		<button onClick='addSubCategory()'>Add SubCategory</button><br>
+		<button onClick='saveSubCategoryGridInfo()'>SaveGridInfo</button><br>
+
 		<br>
 		<div id='subCategoryDivTableId'> <!-- subcat table will go here, dynamically --> </div> 
 
@@ -53,8 +66,34 @@
 
 
 		<script>
+		function setSize() {
+			const sel = document.getElementById('setSize')
+    		const size = sel.options[sel.selectedIndex].text
+			ACTIVE_SIZE = parseInt(size)
+			factory.paint(ACTIVE_SIZE)
+		}
 		setup()
 		</script>
+
+
+
+		</td><td valign='top'>
+
+					<div id='svgdiv' ></div>
+					<script>
+							// Fake react!
+							const width = 1250 // window.innerWidth
+							const height = 606 // window.innerWidth
+							const dom = `<svg width='${width}' height='${height}' id='grid'></svg>`
+							document.getElementById('svgdiv').innerHTML = dom
+							const factory = new Factory(width, height)  // factor = d3 stuff
+					</script>
+		
+
+			</td>
+			</tr>
+			</table>
+
 	</body> 
 
 
