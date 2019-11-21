@@ -11,7 +11,8 @@ class Factory {
 
     setup() { 
         const myimage = this.svg.append('image')
-           .attr('xlink:href', 'world_map_PNG15_cropped.png')
+           // .attr('xlink:href', 'world_map_PNG15_cropped.png')
+           .attr('xlink:href','colonial_conquest_map.png')
            .attr('width', this.width)
            .attr('height', this.height)
            .attr('id', 'picture')
@@ -21,9 +22,11 @@ class Factory {
         for ( let id in this.data) {
             if ( this.data[id].attr('fill') !== this.defaultClr) {
                 const clr = this.data[id].attr("fill")
+                const cat =  this.data[id].attr("cat")
+                const sub = this.data[id].attr("sub")
                 const r =  this.data[id].attr("row")
                 const c = this.data[id].attr("col")
-                console.log( clr, r, c )
+                console.log( clr ,  cat, sub, r, c )
                 
             } 
         }
@@ -33,7 +36,7 @@ class Factory {
         let id = col + "_" + row
 
         const box = this.svg.append("rect")
-        .data([{x:over, y:down, size:size, id:id, clr:this.defaultClr}])
+        .data([{x:over, y:down, size:size, id:id, clr:this.defaultClr, cat:ACTIVE_CAT, sub:ACTIVE_SUB_CAT}])
         .attr("x", over)
         .attr("y", down)
         .attr("width", size)
@@ -45,6 +48,8 @@ class Factory {
         .attr("stroke-opacity", 0.2)
         .attr("class","box")
         .attr("id", id)
+        .attr("cat", ACTIVE_CAT)
+        .attr("sub", ACTIVE_SUB_CAT)
         .attr("col", col)
         .attr("row", row)
         .attr("selected", 0)
