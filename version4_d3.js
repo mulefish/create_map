@@ -15,7 +15,7 @@ class Factory {
         this.shapes = {}
         this.defaultClr = "#ffffff"
         this.active = ""
-        this.offset = - 10
+        this.offset = - 3
 
     }
     emit() { 
@@ -68,6 +68,9 @@ class Factory {
     }
 
     addCircle(x, y) {
+        x -= 4 // THe mouse is a little 
+        y -= 4 // off from where I think it ought to be 
+
         let tmp = this.euclide(x, y)
         x = tmp.x
         y = tmp.y
@@ -76,13 +79,13 @@ class Factory {
             this.data[this.active].push({x:x, y:y})
 
             const dot = background.append('circle')
-                .attr('cx', x + ( this.offset ) )
-                .attr('cy', y + ( this.offset ) )
-                .attr('r', 2 * Math.abs(this.offset))
+                .attr('cx', x + ( this.offset ))
+                .attr('cy', y + ( this.offset ))
+                .attr('r', Math.abs(this.offset))
                 .attr('fill', '#000000')
-                .attr('fill-opacity', 0.2)
+                .attr('fill-opacity', 0.0)
                 .attr('stroke', '#000000')
-                .attr('stroke-opacity', 1.0)
+                .attr('stroke-opacity', 0.5)
                 .on('click', function(d) {
                     addCircle(d3.event.x, d3.event.y)
                 })
