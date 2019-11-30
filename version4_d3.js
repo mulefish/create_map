@@ -122,7 +122,7 @@ class Factory {
     setup() {
         background = this.svg.append("g")
         myimage = background.append('image')
-            .attr('xlink:href', 'colonial_conquest_map.png')
+            //.attr('xlink:href', 'colonial_conquest_map.png')
             .attr('width', this.width)
             .attr('height', this.height)
             .attr('id', 'picture')
