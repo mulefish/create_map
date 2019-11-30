@@ -1,4 +1,6 @@
-<html>
+<!DOCTYPE html>
+<meta charset="utf-8">
+
 	<head>
 			<script src="d3.v5.min.js"></script>
             <script src="version4_d3.js"></script> <!-- org the categories-->
@@ -33,10 +35,8 @@
 <table border='1'>
         <tr>
 
-    <td><button>new_group</button></td>
-    <td><input id="region"></input></td>
-    <td><input id="territory"></input></td>
-    <td><input id="color"></input></td>
+    <td><button onclick="factory.addNewGroup()">new_group</button></td>
+    <td><button onclick="factory.emit()">save ( check console.log ) </button></td>
     </tr>
     </table>
     <hr>
