@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<meta charset="utf-8">
 
 <head>
   <script src="https://d3js.org/d3.v4.js"></script>
@@ -28,17 +28,35 @@
 </script>
 
   <script>
-    let svg = d3.select('svg'),
-      container = svg.append('g'),
-      data = [
-      ];
+    let lineGenerator = d3.line()
+    let svg = d3.select('svg')
+    let container = svg.append('g')
+    let data = []
       container.append("image")
-    .attr("width",  ( 1.5 * width ) + "px")
-    .attr("xlink:href", "colonial_conquest_map.png")
-
-    
+        .attr("width",  ( 1.5 * width ) + "px")
+        .attr("xlink:href", "colonial_conquest_map.png")
     let zoomTrans = {x:0, y:0, scale:1}
 
+
+
+    function drawLine() {
+
+        if ( data.length > 1 ) { 
+                const i2 = data.length - 1
+                const i1 = data.length - 2 
+                const p1 = data[i1]
+                const p2 = data[i2]
+
+                container.append("line")          // attach a line
+                .style("stroke", "black")  // colour the line
+                .attr("x1", p1.x)     // x position of the first end of the line
+                .attr("y1", p1.y)      // y position of the first end of the line
+                .attr("x2", p2.x)     // x position of the second end of the line
+                .attr("y2", p2.y) // y position of the second;    // y position of the second end of the line
+
+            }
+
+    }
     function init() {
       let zoom = d3.zoom()
         .scaleExtent([0.25, 2.25])
@@ -56,6 +74,7 @@
         let x = (d3.event.x - zoomTrans.x)/zoomTrans.scale;
         let y = (d3.event.y - zoomTrans.y)/zoomTrans.scale;
         data.push({ x, y, id: Math.random() });
+        drawLine()
         redraw();
       });
 
@@ -65,10 +84,31 @@
     }
 
     function redraw() {
-        console.log("redraw! ")
+
+
+/*
+if ( data.length > 1 ) {
+
+    for ( let i = 1; i < data.length; i++) {
+
+                const p1 = data[i - 1]
+                const p2 = data[i]
+
+
+    container.append("line")          // attach a line
+                .style("stroke", "black")  // colour the line
+                .attr("x1", p1.x)     // x position of the first end of the line
+                .attr("y1", p1.y)      // y position of the first end of the line
+                .attr("x2", p2.x)     // x position of the second end of the line
+                .attr("y2", p2.y) // y position of the second;    // y position of the second end of the line
+    } 
+
+}
+*/
+
+console.log("")
       let grp = container.selectAll('circle')
         .data(data, (d) => {
-            console.log("id " + d.id )
             return d.id
         })
         .attr('class', 'old')
