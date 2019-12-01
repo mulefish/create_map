@@ -25,6 +25,21 @@
     const height = 550 // window.innerWidth
     const dom = `<svg width='${width}' height='${height}' id='grid'></svg>`
     document.getElementById('svgdiv').innerHTML = dom
+
+    addNewGroup() {
+        this.endGroup()
+        const name = prompt("Name?", "");
+
+        if (name != null && ! this.data.hasOwnProperty(name)) { 
+            this.active = name
+            this.data[this.active] = [] 
+        } else {
+            alert("Bad name! "  + name )
+        }
+    }
+
+
+
 </script>
 
   <script>
@@ -77,36 +92,9 @@
         drawLine()
         redraw();
       });
-
-
-
-
     }
 
     function redraw() {
-
-
-/*
-if ( data.length > 1 ) {
-
-    for ( let i = 1; i < data.length; i++) {
-
-                const p1 = data[i - 1]
-                const p2 = data[i]
-
-
-    container.append("line")          // attach a line
-                .style("stroke", "black")  // colour the line
-                .attr("x1", p1.x)     // x position of the first end of the line
-                .attr("y1", p1.y)      // y position of the first end of the line
-                .attr("x2", p2.x)     // x position of the second end of the line
-                .attr("y2", p2.y) // y position of the second;    // y position of the second end of the line
-    } 
-
-}
-*/
-
-console.log("")
       let grp = container.selectAll('circle')
         .data(data, (d) => {
             return d.id
@@ -117,11 +105,10 @@ console.log("")
       
       let grpEnter = grp.enter()
 
-
       let group = grpEnter
       group.append('circle')
         .attr('class', 'new')
-        .attr('r', 15)
+        .attr('r', 6)
         .attr('cx', d => d.x)
         .attr('cy', d => d.y)
         .attr('fill', '#000000')
