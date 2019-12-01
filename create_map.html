@@ -54,7 +54,6 @@
                 }
             })
         }
-
         if ( distance < horizon ) {
             x = x2
             y = y2 
@@ -63,50 +62,40 @@
     }
 
     function _endGroup() {
-
-        if ( active.length > 0 ) {
-
-        const i2 = data[active].length - 1
-        const p2 = data[active][i2]
-
+      if ( active.length > 0 ) {
+        const index = data[active].length - 1
+        const end = data[active][index]
         container.append('circle')
-        .attr('r', circleRadius)
-        .attr('cx', p2.x)
-        .attr('cy', p2.y)
-        .attr('fill', '#000f00')
-        .attr('fill-opacity', 0.0)
-        .attr('stroke', '#000000')
-        .attr('stroke-opacity', 1.0)
+         .attr('r', circleRadius)
+         .attr('cx', end.x)
+         .attr('cy', end.y)
+         .attr('fill', '#000f00')
+         .attr('fill-opacity', 0.0)
+         .attr('stroke', '#000000')
+         .attr('stroke-opacity', 1.0)
 
-                const p1 = data[active][0]
+        const first = data[active][0]
 
-                container.append("line")
-                .style("stroke", "black")
-                .attr("x1", p1.x)
-                .attr("y1", p1.y)
-                .attr("x2", p2.x)
-                .attr("y2", p2.y)
-
+        container.append("line")
+          .style("stroke", "black")
+          .attr("x1", first.x)
+          .attr("y1", first.y)
+          .attr("x2", end.x)
+          .attr("y2", end.y)
         //console.log( active + " : " + JSON.stringify( data[active]))
-        }
-
+      }
     }
 
     function addNewGroup() {
         _endGroup()
-        const name = prompt("Name?", "");
-
+        const name = prompt("Name?", "")
         if (name != null && ! data.hasOwnProperty(name)) { 
             active = name
-            data[active] = [] 
-//            console.log(JSON.stringify(data))
+            data[active] = []
         } else {
             alert("Bad name! "  + name )
         }
     }
-
-
-
 </script>
 
   <script>
@@ -115,71 +104,65 @@
     let container = svg.append('g')
     let active = ""
     let data = {}
+    let zoomTrans = {x:0, y:0, scale:1}
+
     container.append("image")
         .attr("width",  ( 1.5 * width ) + "px")
         .attr("xlink:href", "colonial_conquest_map.png")
-
-    let zoomTrans = {x:0, y:0, scale:1}
-
-
-
+    
     function drawOnMap() {
+      const index = data[active].length - 1
+      const end = data[active][index]
 
-        const i2 = data[active].length - 1
-        const p2 = data[active][i2]
-
-        container.append('circle')
+      container.append('circle')
         .attr('r', circleRadius)
-        .attr('cx', p2.x)
-        .attr('cy', p2.y)
+        .attr('cx', end.x)
+        .attr('cy', end.y)
         .attr('fill', '#ff6633')
         .attr('fill-opacity', 0.1)
         .attr('stroke', '#000000')
         .attr('stroke-opacity', 1.0)
 
+      if ( data[active].length > 1 ) { 
+        const index2 = data[active].length - 2 
+        const penultimate = data[active][index2]
 
-        if ( data[active].length > 1 ) { 
-                const i1 = data[active].length - 2 
-                const p1 = data[active][i1]
-
-                container.append("line")
-                .style("stroke", "black")
-                .attr("x1", p1.x)
-                .attr("y1", p1.y)
-                .attr("x2", p2.x)
-                .attr("y2", p2.y)
-                
-            }
-
+        container.append("line")
+          .style("stroke", "black")
+          .attr("x1", penultimate.x)
+          .attr("y1", penultimate.y)
+          .attr("x2", end.x)
+          .attr("y2", end.y)      
+      }
     }
+
     function init() {
       let zoom = d3.zoom()
         .scaleExtent([0.25, 2.25])
         .on("zoom", () => {
-          zoomTrans.x = d3.event.transform.x;
-          zoomTrans.y = d3.event.transform.y;
-          zoomTrans.scale = d3.event.transform.k;
-          container.attr("transform", d3.event.transform);
+          zoomTrans.x = d3.event.transform.x
+          zoomTrans.y = d3.event.transform.y
+          zoomTrans.scale = d3.event.transform.k
+          container.attr("transform", d3.event.transform)
           // console.log("x ", zoomTrans.x, " y ", zoomTrans.y, " scale ", zoomTrans.scale  )
-        });
+        })
 
       svg.call(zoom)
         .on("dblclick.zoom", null)
 
       svg.on('click', d => {
         if ( active.length > 0 ) {
-        let x = (d3.event.x - zoomTrans.x)/zoomTrans.scale;
-        let y = (d3.event.y - zoomTrans.y)/zoomTrans.scale;
-//        console.log('a ' , x , y )
-        const xy = _euclide(x,y);
-        x = xy.x;
-        y = xy.y;
-  //      console.log('b ' , x , y )
-
-        data[active].push({ x, y, id: Math.random() });
-        drawOnMap();
+          let x = (d3.event.x - zoomTrans.x)/zoomTrans.scale;
+          let y = (d3.event.y - zoomTrans.y)/zoomTrans.scale;
+          const xy = _euclide(x,y);
+          x = xy.x;
+          y = xy.y;
+          x = parseFloat(x).toFixed(0)
+          y = parseFloat(y).toFixed(0)
+          data[active].push({ x, y });
+          drawOnMap();
         } else {
-            addNewGroup()
+          addNewGroup()
         }
       });
     }
