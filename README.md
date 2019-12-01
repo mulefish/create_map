@@ -6,3 +6,6 @@ D3 version5
 
 ## Server?
 This has no backend : you will need to supply your own server. I use python3 -m http.server 3030
+
+## create_map.html vs. create_map_fromScratch.html
+create_map.html has a backing image of a map while create_map_fromScratch does not. 
