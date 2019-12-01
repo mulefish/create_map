@@ -26,7 +26,7 @@
     const width = window.innerWidth
     const height = 550 // window.innerWidth
     const dom = `<svg width='${width}' height='${height}' id='grid'></svg>`
-    const horizon = 10 // for the _euclide 'snapto' checkset : must be pretty close to snap to
+    const horizon = 5 // for the _euclide 'snapto' checkset : must be pretty close to snap to
     const circleRadius = 6
     document.getElementById('svgdiv').innerHTML = dom
 
@@ -57,6 +57,7 @@
         if ( distance < horizon ) {
             x = x2
             y = y2 
+            console.log('euclide! ' , x , y )
         }
         return {x,y}
     }
@@ -77,11 +78,14 @@
         const first = data[active][0]
 
         container.append("line")
-          .style("stroke", "black")
+          .style("stroke", "red")
           .attr("x1", first.x)
           .attr("y1", first.y)
           .attr("x2", end.x)
           .attr("y2", end.y)
+          .attr('fill', '#000f00')
+         .attr('fill-opacity', 1.0)
+
         //console.log( active + " : " + JSON.stringify( data[active]))
       }
     }
@@ -138,7 +142,7 @@
 
     function init() {
       let zoom = d3.zoom()
-        .scaleExtent([0.25, 2.25])
+        .scaleExtent([0.25, 4.25])
         .on("zoom", () => {
           zoomTrans.x = d3.event.transform.x
           zoomTrans.y = d3.event.transform.y
