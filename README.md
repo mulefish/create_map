@@ -4,3 +4,5 @@ Ever wanted to create a map but did not have ArcVUE GIS? Me too. This simple too
 ## Tech stack? 
 D3 version5
 
+## Server?
+This has no backend : you will need to supply your own server. I use python3 -m http.server 3030
