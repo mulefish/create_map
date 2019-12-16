@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+  <script src="d3.v5.min.js"></script>
+  <style>
+    body {margin: 0 }
+    svg { background-color: #ffffff; }
+    svg circle.old { fill: green; }
+    svg circle.new { fill: blue;  }
+    svg {
+    border-style: solid;
+    border-width: 1px;
+    }
+  </style>
+</head>
+
+<body>
+    <div id="svgdiv"></div>
+    <button onclick="addNewGroup()">addNewGroup</button>
+  <script>
+    // Fake react!
+    const width = window.innerWidth
+    const height = 550 // window.innerWidth
+    const dom = `<svg width='${width}' height='${height}' id='grid'></svg>`
+    const horizon = 5 // for the _euclide 'snapto' checkset : must be pretty close to snap to
+    const circleRadius = 6
+    document.getElementById('svgdiv').innerHTML = dom
+</script>
+<script src="jslogic.js"></script>
+</body>
+</html>

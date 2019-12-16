@@ -31,10 +31,13 @@
     document.getElementById('svgdiv').innerHTML = dom
 
     function emit() { 
+      let out = ""
         for ( let key in data ) {
             let ary = data[key] // This will be ary of {x,y } objects 
             console.log( key + " : " + JSON.stringify( ary ))
+            out += key + ":" + JSON.stringify( ary ) + "\n"
         }
+        alert( out )
     }
 
 
